@@ -4,8 +4,11 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 <BaseLayout title="Dashboard Admin">
 	<div class="admin-layout">
-		<aside class="sidebar">
-			<div class="logo">LUMIÁ <span>OHANA</span></div>
+		<aside class="sidebar" id="sidebar">
+			<div class="sidebar-header">
+				<div class="logo">LUMIÁ <span>OHANA</span></div>
+				<button class="close-sidebar" id="close-sidebar">&times;</button>
+			</div>
 			<nav>
 				<a href="/admin" class="active">Dashboard</a>
 				<a href="#">Produtos</a>
@@ -17,8 +20,11 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 		<main class="admin-main">
 			<header class="admin-header">
-				<h1>Dashboard Administrativo</h1>
-				<div class="user-info">Olá, Administrador</div>
+				<div class="header-left">
+					<button class="menu-toggle" id="menu-toggle">☰</button>
+					<h1>Dashboard</h1>
+				</div>
+				<div class="user-info">Administrador</div>
 			</header>
 
 			<div class="stats-grid gsap-reveal">
@@ -101,6 +107,19 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 		localStorage.removeItem('lumia_admin_auth');
 		window.location.href = '/admin/login';
 	});
+
+	// Mobile Sidebar Toggle
+	const sidebar = document.getElementById('sidebar');
+	const menuToggle = document.getElementById('menu-toggle');
+	const closeSidebar = document.getElementById('close-sidebar');
+
+	menuToggle?.addEventListener('click', () => {
+		sidebar?.classList.add('open');
+	});
+
+	closeSidebar?.addEventListener('click', () => {
+		sidebar?.classList.remove('open');
+	});
 </script>
 
 <style>
@@ -110,10 +129,54 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 		min-height: 100vh;
 	}
 
+	@media (max-width: 1024px) {
+		.admin-layout {
+			grid-template-columns: 1fr;
+		}
+	}
+
 	.sidebar {
 		background: var(--color-charcoal);
 		color: white;
 		padding: 2rem;
+		transition: transform 0.3s ease;
+	}
+
+	@media (max-width: 1024px) {
+		.sidebar {
+			position: fixed;
+			top: 0;
+			left: 0;
+			height: 100vh;
+			width: 280px;
+			z-index: 2000;
+			transform: translateX(-100%);
+		}
+		.sidebar.open {
+			transform: translateX(0);
+		}
+	}
+
+	.sidebar-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 3rem;
+	}
+
+	.close-sidebar {
+		display: none;
+		background: none;
+		border: none;
+		color: white;
+		font-size: 2rem;
+		cursor: pointer;
+	}
+
+	@media (max-width: 1024px) {
+		.close-sidebar {
+			display: block;
+		}
 	}
 
 	.sidebar .logo {
@@ -156,6 +219,33 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 		padding: 3rem;
 	}
 
+	@media (max-width: 768px) {
+		.admin-main {
+			padding: 1.5rem;
+		}
+	}
+
+	.menu-toggle {
+		display: none;
+		background: none;
+		border: none;
+		font-size: 1.5rem;
+		cursor: pointer;
+		color: var(--color-charcoal);
+	}
+
+	@media (max-width: 1024px) {
+		.menu-toggle {
+			display: block;
+		}
+	}
+
+	.header-left {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+
 	.admin-header {
 		display: flex;
 		justify-content: space-between;
@@ -168,6 +258,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 		grid-template-columns: repeat(3, 1fr);
 		gap: 2rem;
 		margin-bottom: 3rem;
+	}
+
+	@media (max-width: 768px) {
+		.stats-grid {
+			grid-template-columns: 1fr;
+			gap: 1rem;
+		}
 	}
 
 	.stat-card {
@@ -209,14 +306,14 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 		margin-bottom: 2rem;
 	}
 
-	.small {
-		padding: 0.5rem 1rem;
-		font-size: 0.8rem;
+	.table-container {
+		overflow-x: auto;
 	}
 
 	table {
 		width: 100%;
 		border-collapse: collapse;
+		min-width: 800px; /* Force scroll on mobile */
 	}
 
 	th {
