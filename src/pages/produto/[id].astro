@@ -1,0 +1,389 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { id: 'serum-iluminador-gold' } },
+    { params: { id: 'batom-matte-velvet-pink' } },
+    { params: { id: 'creme-hidratante-ohana' } },
+    { params: { id: 'mascara-facial-argila-rosa' } },
+    { params: { id: 'primer-perfect-glow' } },
+    { params: { id: 'blush-soft-rose' } },
+  ];
+}
+
+const { id } = Astro.params;
+
+// Mock data
+const product = {
+	name: "Sérum Iluminador Gold",
+	price: "R$ 189,90",
+	description: "Nosso sérum best-seller combina partículas de ouro 24k com ácido hialurônico para uma pele instantaneamente radiante e profundamente hidratada.",
+	benefits: [
+		"Hidratação profunda por 24h",
+		"Efeito glow imediato",
+		"Redução visível de linhas finas",
+		"Textura ultra leve e de rápida absorção"
+	],
+	images: [
+		"https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=1974&auto=format&fit=crop",
+		"https://images.unsplash.com/photo-1612817288484-6f916006741a?q=80&w=2070&auto=format&fit=crop"
+	],
+	reviews: 1243,
+	rating: 4.9
+};
+---
+
+<BaseLayout title={product.name}>
+	<Header />
+
+	<main class="product-page container">
+		<div class="product-visuals gsap-reveal">
+			<div class="main-image">
+				<img src={product.images[0]} alt={product.name} />
+			</div>
+			<div class="image-thumbnails">
+				{product.images.map(img => (
+					<div class="thumb"><img src={img} alt="Miniatura" /></div>
+				))}
+			</div>
+		</div>
+
+		<div class="product-details">
+			<div class="breadcrumb gsap-reveal">Home / Skincare / Sérum</div>
+			<h1 class="gsap-reveal">{product.name}</h1>
+			
+			<div class="rating gsap-reveal">
+				<span class="stars">⭐⭐⭐⭐⭐</span>
+				<span class="review-count">({product.reviews} avaliações)</span>
+				<span class="social-proof">• +1.200 clientes satisfeitas</span>
+			</div>
+
+			<div class="price-container gsap-reveal">
+				<p class="price">{product.price}</p>
+				<p class="installments">ou 6x de R$ 31,65 sem juros</p>
+			</div>
+
+			<p class="description gsap-reveal">{product.description}</p>
+
+			<ul class="benefits-list gsap-reveal">
+				{product.benefits.map(benefit => (
+					<li><span class="check">✓</span> {benefit}</li>
+				))}
+			</ul>
+
+			<div class="purchase-actions gsap-reveal" data-product={JSON.stringify({id, name: product.name, price: product.price, image: product.images[0]})}>
+				<div class="quantity-selector">
+					<button>-</button>
+					<span>1</span>
+					<button>+</button>
+				</div>
+				<div class="btns-group">
+					<button class="btn-gold buy-btn" id="buy-now-btn">Comprar Agora</button>
+					<button class="btn-outline add-cart-btn" id="add-to-cart-btn">Adicionar ao Carrinho</button>
+				</div>
+			</div>
+
+			<div class="shipping-calculator gsap-reveal">
+				<label>Calcular Frete</label>
+				<div class="input-group">
+					<input type="text" placeholder="00000-000" />
+					<button>OK</button>
+				</div>
+			</div>
+
+			<div class="scarcity-trigger gsap-reveal">
+				🔥 <span>Últimas 5 unidades em estoque!</span>
+			</div>
+		</div>
+	</main>
+
+	<script>
+		import { addToCart } from '../../utils/cart.js';
+		
+		const buyNowBtn = document.getElementById('buy-now-btn');
+		const addCartBtn = document.getElementById('add-to-cart-btn');
+		const container = document.querySelector('.purchase-actions');
+		const productData = container ? JSON.parse(container.getAttribute('data-product') || '{}') : null;
+		
+		buyNowBtn?.addEventListener('click', () => {
+			if (productData) {
+				addToCart(productData);
+				buyNowBtn.innerText = '✓ Processando...';
+				setTimeout(() => {
+					window.location.href = '/checkout';
+				}, 500);
+			}
+		});
+
+		addCartBtn?.addEventListener('click', () => {
+			if (productData) {
+				addToCart(productData);
+				const originalText = addCartBtn.innerText;
+				addCartBtn.innerText = '✓ Adicionado!';
+				addCartBtn.classList.add('success');
+				
+				setTimeout(() => {
+					addCartBtn.innerText = originalText;
+					addCartBtn.classList.remove('success');
+				}, 2000);
+			}
+		});
+	</script>
+
+	<section class="whatsapp-btn">
+		<a href="#" target="_blank" aria-label="Fale conosco no WhatsApp">
+			<svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-2.202 0-3.992 1.79-3.992 3.992 0 .584.126 1.15.368 1.666l-.37 1.353 1.385-.363c.5.215 1.042.327 1.597.327 2.202 0 3.992-1.79 3.992-3.992s-1.79-3.984-3.98-3.984zm2.148 5.613c-.09.25-.513.484-.716.516-.194.032-.38.053-.572.053-.597 0-1.226-.353-2.112-1.239-.886-.886-1.239-1.515-1.239-2.112 0-.192.021-.378.053-.572.032-.203.266-.626.516-.716.07-.025.14-.04.21-.04.09 0 .17.04.23.11l.52.52c.07.07.11.16.11.26 0 .09-.04.18-.11.25l-.2.2c-.07.07-.07.18 0 .25.26.26.77.77 1.03 1.03.07.07.18.07.25 0l.2-.2c.07-.07.16-.11.25-.11.1 0 .19.04.26.11l.52.52c.07.06.11.14.11.23 0 .07-.015.14-.04.21zM12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.912-1.29C8.36 21.57 10.11 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.63 0-3.146-.473-4.422-1.282l-.317-.202-2.31.607.618-2.257-.222-.352C4.522 15.223 4 13.67 4 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
+		</a>
+	</section>
+</BaseLayout>
+
+<style>
+	.product-page {
+		display: grid;
+		grid-template-columns: 1.2fr 1fr;
+		gap: 5rem;
+		padding-top: 150px;
+		padding-bottom: 8rem;
+	}
+
+	.main-image {
+		border-radius: 20px;
+		overflow: hidden;
+		background: #f9f9f9;
+		margin-bottom: 1.5rem;
+	}
+
+	.main-image img {
+		width: 100%;
+		transition: transform 0.5s ease;
+	}
+
+	.main-image:hover img {
+		transform: scale(1.05);
+	}
+
+	.image-thumbnails {
+		display: flex;
+		gap: 1rem;
+	}
+
+	.thumb {
+		width: 80px;
+		height: 80px;
+		border-radius: 10px;
+		overflow: hidden;
+		cursor: pointer;
+		border: 2px solid transparent;
+	}
+
+	.thumb:first-child {
+		border-color: var(--color-gold);
+	}
+
+	.breadcrumb {
+		font-size: 0.8rem;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		margin-bottom: 1rem;
+		color: #999;
+	}
+
+	.product-details h1 {
+		font-size: 3rem;
+		margin-bottom: 1rem;
+	}
+
+	.rating {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		margin-bottom: 2rem;
+	}
+
+	.review-count {
+		font-size: 0.9rem;
+		color: #666;
+	}
+
+	.social-proof {
+		font-size: 0.9rem;
+		font-weight: 700;
+		color: #2ecc71;
+	}
+
+	.price-container {
+		margin-bottom: 2rem;
+	}
+
+	.price {
+		font-size: 2rem;
+		font-weight: 700;
+		color: var(--color-charcoal);
+	}
+
+	.installments {
+		font-size: 0.9rem;
+		color: #666;
+	}
+
+	.description {
+		font-size: 1.1rem;
+		margin-bottom: 2rem;
+		color: #444;
+	}
+
+	.benefits-list {
+		margin-bottom: 3rem;
+	}
+
+	.benefits-list li {
+		margin-bottom: 0.8rem;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.check {
+		color: var(--color-gold);
+		font-weight: 700;
+	}
+
+	.purchase-actions {
+		display: flex;
+		gap: 1.5rem;
+		margin-bottom: 3rem;
+	}
+
+	.quantity-selector {
+		display: flex;
+		align-items: center;
+		border: 1px solid #ddd;
+		border-radius: 50px;
+		padding: 0 1rem;
+	}
+
+	.quantity-selector button {
+		background: none;
+		border: none;
+		width: 30px;
+		height: 40px;
+		cursor: pointer;
+		font-size: 1.2rem;
+	}
+
+	.quantity-selector span {
+		width: 40px;
+		text-align: center;
+		font-weight: 700;
+	}
+
+	.btns-group {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.buy-btn {
+		width: 100%;
+		font-size: 1rem;
+	}
+
+	.add-cart-btn {
+		width: 100%;
+		padding: 1rem 2.5rem;
+		text-align: center;
+		cursor: pointer;
+	}
+
+	.add-cart-btn.success {
+		border-color: #2ecc71;
+		color: #2ecc71;
+	}
+
+	.shipping-calculator {
+		margin-bottom: 2rem;
+		padding: 1.5rem;
+		background: var(--color-accent-pink);
+		border-radius: 15px;
+		color: white;
+	}
+
+	.shipping-calculator label {
+		color: white;
+		display: block;
+		margin-bottom: 0.8rem;
+		font-weight: 700;
+		font-size: 0.9rem;
+	}
+
+	.input-group {
+		display: flex;
+		gap: 0.5rem;
+	}
+
+	.input-group input {
+		flex: 1;
+		padding: 0.8rem 1rem;
+		border: 1px solid #ddd;
+		border-radius: 8px;
+	}
+
+	.input-group button {
+		padding: 0 1.5rem;
+		background: var(--color-charcoal);
+		color: white;
+		border: none;
+		border-radius: 8px;
+		cursor: pointer;
+	}
+
+	.scarcity-trigger {
+		font-weight: 700;
+		color: #e74c3c;
+		font-size: 0.9rem;
+	}
+
+	.whatsapp-btn {
+		position: fixed;
+		bottom: 2rem;
+		right: 2rem;
+		z-index: 1000;
+	}
+
+	.whatsapp-btn a {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 60px;
+		height: 60px;
+		background: #25d366;
+		color: white;
+		border-radius: 50%;
+		box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+		transition: transform 0.3s ease;
+	}
+
+	.whatsapp-btn a:hover {
+		transform: scale(1.1);
+	}
+
+	@media (max-width: 1024px) {
+		.product-page {
+			grid-template-columns: 1fr;
+			gap: 3rem;
+			padding-top: 100px;
+		}
+		.buy-btn {
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			border-radius: 0;
+			z-index: 999;
+			padding: 1.5rem;
+		}
+	}
+</style>

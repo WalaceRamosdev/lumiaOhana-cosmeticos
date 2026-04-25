@@ -1,0 +1,138 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import ProductCard from '../components/ProductCard.astro';
+
+const products = [
+	{ id: 'serum-iluminador-gold', name: 'Sérum Iluminador Gold', price: 'R$ 189,90', category: 'Skincare', image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=1974&auto=format&fit=crop' },
+	{ id: 'batom-matte-velvet-pink', name: 'Batom Matte Velvet Pink', price: 'R$ 89,90', category: 'Maquiagem', image: 'https://images.unsplash.com/photo-1586776977607-310e9c725c37?q=80&w=1960&auto=format&fit=crop' },
+	{ id: 'creme-hidratante-ohana', name: 'Creme Hidratante Ohana', price: 'R$ 149,90', category: 'Skincare', image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=1974&auto=format&fit=crop' },
+	{ id: 'mascara-facial-argila-rosa', name: 'Máscara Facial Argila Rosa', price: 'R$ 119,90', category: 'Skincare', image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=2070&auto=format&fit=crop' },
+	{ id: 'primer-perfect-glow', name: 'Primer Perfect Glow', price: 'R$ 79,90', category: 'Maquiagem', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc4033c8?q=80&w=2080&auto=format&fit=crop' },
+	{ id: 'blush-soft-rose', name: 'Blush Soft Rose', price: 'R$ 69,90', category: 'Maquiagem', image: 'https://images.unsplash.com/photo-1557204944-77e7428801d0?q=80&w=2070&auto=format&fit=crop' },
+];
+---
+
+<BaseLayout title="Categorias">
+	<Header />
+
+	<main class="category-page container">
+		<header class="category-header gsap-reveal">
+			<h1>Nossos Produtos</h1>
+			<p>Explore nossa linha completa de cosméticos de alta performance.</p>
+		</header>
+
+		<div class="category-content">
+			<aside class="filters gsap-reveal">
+				<div class="filter-group">
+					<h4>Categorias</h4>
+					<ul>
+						<li><label><input type="checkbox" checked /> Skincare</label></li>
+						<li><label><input type="checkbox" checked /> Maquiagem</label></li>
+						<li><label><input type="checkbox" /> Kits & Presentes</label></li>
+					</ul>
+				</div>
+				<div class="filter-group">
+					<h4>Preço</h4>
+					<ul>
+						<li><label><input type="radio" name="price" /> Até R$ 100</label></li>
+						<li><label><input type="radio" name="price" /> R$ 100 - R$ 200</label></li>
+						<li><label><input type="radio" name="price" /> Acima de R$ 200</label></li>
+					</ul>
+				</div>
+			</aside>
+
+			<div class="product-listing">
+				<div class="listing-controls gsap-reveal">
+					<span>Exibindo 6 produtos</span>
+					<select>
+						<option>Mais recentes</option>
+						<option>Menor preço</option>
+						<option>Maior preço</option>
+					</select>
+				</div>
+				<div class="product-grid">
+					{products.map(product => (
+						<ProductCard {...product} />
+					))}
+				</div>
+			</div>
+		</div>
+	</main>
+</BaseLayout>
+
+<style>
+	.category-page {
+		padding-top: 180px; /* More space for fixed header */
+		padding-bottom: 10rem;
+	}
+
+	.category-header {
+		text-align: center;
+		margin-bottom: 8rem;
+	}
+
+	.category-header h1 {
+		font-size: 4rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.category-content {
+		display: grid;
+		grid-template-columns: 280px 1fr;
+		gap: 8rem; /* Even more space for premium feel */
+	}
+
+	.filters h4 {
+		font-size: 1.1rem;
+		margin-bottom: 1.5rem;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+	}
+
+	.filter-group {
+		margin-bottom: 3rem;
+	}
+
+	.filter-group ul li {
+		margin-bottom: 0.8rem;
+	}
+
+	.filter-group label {
+		display: flex;
+		align-items: center;
+		gap: 0.8rem;
+		cursor: pointer;
+		font-size: 0.95rem;
+	}
+
+	.listing-controls {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 2rem;
+		padding-bottom: 1rem;
+		border-bottom: 1px solid #eee;
+	}
+
+	.listing-controls select {
+		padding: 0.5rem 1rem;
+		border: 1px solid #ddd;
+		border-radius: 5px;
+	}
+
+	.product-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		gap: 2rem;
+	}
+
+	@media (max-width: 1024px) {
+		.category-content {
+			grid-template-columns: 1fr;
+		}
+		.filters {
+			display: none; /* In a real app, this would be a mobile drawer */
+		}
+	}
+</style>

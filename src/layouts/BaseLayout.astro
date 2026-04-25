@@ -1,0 +1,56 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = "Lumiá OHANA - Cosméticos Premium para sua beleza natural." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title} | Lumiá OHANA</title>
+		
+		<!-- Google Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+		
+		<!-- GSAP will be bundled via ESM in the body script -->
+	</head>
+	<body>
+		<slot />
+		
+		<script>
+			import { gsap } from 'gsap';
+			import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+			// Global GSAP Initialization
+			gsap.registerPlugin(ScrollTrigger);
+			
+			// Reveal animations
+			const revealElements = document.querySelectorAll('.gsap-reveal');
+			revealElements.forEach((el) => {
+				gsap.to(el, {
+					scrollTrigger: {
+						trigger: el,
+						start: "top 85%",
+						toggleActions: "play none none none"
+					},
+					opacity: 1,
+					y: 0,
+					duration: 1.2,
+					ease: "power3.out"
+				});
+			});
+		</script>
+	</body>
+</html>

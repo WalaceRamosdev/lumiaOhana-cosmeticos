@@ -1,0 +1,158 @@
+---
+const sliderImages = [
+	'https://images.unsplash.com/photo-1596462502278-27bfdc4033c8?q=80&w=2080&auto=format&fit=crop',
+	'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=2070&auto=format&fit=crop',
+	'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=2087&auto=format&fit=crop'
+];
+---
+<section class="hero">
+	<div class="hero-content container">
+		<h1 class="gsap-reveal">Descubra sua <br/><span>Beleza Natural</span></h1>
+		<p class="gsap-reveal">Fórmulas exclusivas inspiradas na sofisticação feminina e na força da natureza. Sinta a experiência Lumiá OHANA.</p>
+		<div class="hero-btns gsap-reveal">
+			<a href="/categorias" class="btn-gold">Ver Coleção</a>
+			<a href="/sobre" class="btn-outline">Conheça a Marca</a>
+		</div>
+	</div>
+	<div class="hero-slider">
+		{sliderImages.map((img, index) => (
+			<div class={`slide ${index === 0 ? 'active' : ''}`} style={`background-image: url('${img}')`}></div>
+		))}
+		<div class="image-overlay"></div>
+	</div>
+</section>
+
+<script>
+	import { gsap } from 'gsap';
+
+	const slides = document.querySelectorAll('.slide');
+	let currentSlide = 0;
+
+	function nextSlide() {
+		const next = (currentSlide + 1) % slides.length;
+		
+		gsap.to(slides[currentSlide], { opacity: 0, duration: 1.5, ease: "power2.inOut" });
+		gsap.to(slides[next], { opacity: 1, duration: 1.5, ease: "power2.inOut" });
+		
+		currentSlide = next;
+	}
+
+	setInterval(nextSlide, 5000);
+</script>
+
+<style>
+	.hero {
+		height: 100vh;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		align-items: center;
+		padding-top: 80px;
+		background-color: var(--color-primary-pink);
+		overflow: hidden;
+		position: relative;
+	}
+
+	.hero-content {
+		z-index: 10;
+	}
+
+	.hero h1 {
+		font-size: 4.5rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.hero h1 span {
+		color: var(--color-gold);
+		font-style: italic;
+	}
+
+	.hero p {
+		font-size: 1.1rem;
+		max-width: 500px;
+		margin-bottom: 2.5rem;
+		color: var(--color-text);
+	}
+
+	.hero-btns {
+		display: flex;
+		gap: 1.5rem;
+	}
+
+	.btn-outline {
+		display: inline-block;
+		padding: 1rem 2.5rem;
+		border: 2px solid var(--color-gold);
+		color: var(--color-gold);
+		text-transform: uppercase;
+		letter-spacing: 2px;
+		font-size: 0.8rem;
+		font-weight: 700;
+		border-radius: 50px;
+		transition: all 0.3s ease;
+	}
+
+	.btn-outline:hover {
+		background: var(--color-gold);
+		color: white;
+	}
+
+	.hero-slider {
+		height: 100%;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.slide {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-size: cover;
+		background-position: center;
+		opacity: 0;
+		transition: transform 10s linear;
+	}
+
+	.slide.active {
+		opacity: 1;
+	}
+
+	.image-overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(to right, var(--color-primary-pink) 0%, transparent 40%, rgba(229, 195, 196, 0.2) 100%);
+		z-index: 5;
+	}
+
+	@media (max-width: 1024px) {
+		.hero {
+			grid-template-columns: 1fr;
+			text-align: center;
+		}
+		.hero-content {
+			padding: 4rem 2rem;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			z-index: 10;
+		}
+		.hero h1 {
+			font-size: 3rem;
+		}
+		.hero-slider {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			opacity: 0.3;
+		}
+		.image-overlay {
+			background: linear-gradient(to bottom, var(--color-primary-pink) 0%, transparent 50%, var(--color-primary-pink) 100%);
+		}
+	}
+</style>

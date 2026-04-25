@@ -1,0 +1,21 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# build
+/dist
+
+# misc
+.DS_Store
+.env
+.env.production
+/npm-debug.log*
+/yarn-error.log*
+/yarn-debug.log*
+
+# astro
+.astro/

@@ -1,0 +1,112 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Admin Login">
+	<main class="login-page">
+		<div class="login-card gsap-reveal">
+			<div class="logo">LUMIÁ <span>OHANA</span></div>
+			<h2>Painel Administrativo</h2>
+			<form id="login-form">
+				<div class="input-group">
+					<label>Usuário</label>
+					<input type="text" id="username" required />
+				</div>
+				<div class="input-group">
+					<label>Senha</label>
+					<input type="password" id="password" required />
+				</div>
+				<button type="submit" class="btn-gold">Entrar</button>
+			</form>
+			<p id="error-msg" class="error"></p>
+		</div>
+	</main>
+</BaseLayout>
+
+<script>
+	const form = document.getElementById('login-form');
+	const errorEl = document.getElementById('error-msg');
+
+	form?.addEventListener('submit', (e) => {
+		e.preventDefault();
+		const user = (document.getElementById('username') as HTMLInputElement).value;
+		const pass = (document.getElementById('password') as HTMLInputElement).value;
+
+		// Mock authentication
+		if (user === 'admin' && pass === 'admin123') {
+			localStorage.setItem('lumia_admin_auth', 'true');
+			window.location.href = '/admin';
+		} else {
+			if (errorEl) errorEl.innerText = 'Usuário ou senha incorretos.';
+		}
+	});
+</script>
+
+<style>
+	.login-page {
+		height: 100vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: var(--color-primary-pink);
+	}
+
+	.login-card {
+		background: white;
+		padding: 3rem;
+		border-radius: 20px;
+		box-shadow: var(--shadow-premium);
+		width: 100%;
+		max-width: 400px;
+		text-align: center;
+	}
+
+	.logo {
+		font-family: var(--font-serif);
+		font-size: 1.5rem;
+		font-weight: 700;
+		letter-spacing: 4px;
+		margin-bottom: 2rem;
+	}
+
+	.logo span {
+		color: var(--color-gold);
+	}
+
+	h2 {
+		margin-bottom: 2rem;
+		font-size: 1.2rem;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+	}
+
+	.input-group {
+		text-align: left;
+		margin-bottom: 1.5rem;
+	}
+
+	.input-group label {
+		display: block;
+		margin-bottom: 0.5rem;
+		font-size: 0.9rem;
+		font-weight: 700;
+	}
+
+	input {
+		width: 100%;
+		padding: 0.8rem;
+		border: 1px solid #ddd;
+		border-radius: 8px;
+	}
+
+	button {
+		width: 100%;
+		margin-top: 1rem;
+	}
+
+	.error {
+		color: #e74c3c;
+		margin-top: 1rem;
+		font-size: 0.9rem;
+	}
+</style>

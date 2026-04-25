@@ -1,0 +1,135 @@
+/* 
+  Lumiá OHANA - Design System & Global Styles
+  Palette: Soft Pink, Metallic Gold, White, Charcoal
+*/
+
+:root {
+  /* Colors */
+  --color-primary-pink: #FFF0F5;
+  --color-secondary-pink: #FDF2F8;
+  --color-accent-pink: #E5C3C4; /* New dusty rose color */
+  --color-gold: #D4AF37;
+  --color-gold-light: #F9F1D0;
+  --color-gold-dark: #C5A028;
+  --color-charcoal: #333333;
+  --color-white: #FFFFFF;
+  --color-text: #4A4A4A;
+  
+  /* Gradients */
+  --gradient-gold: linear-gradient(135deg, #D4AF37 0%, #F9F1D0 50%, #C5A028 100%);
+  --gradient-pink: linear-gradient(180deg, #FFF0F5 0%, #E5C3C4 100%);
+
+  /* Typography */
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Spacing */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: 8rem;
+
+  /* Misc */
+  --shadow-premium: 0 10px 30px rgba(0, 0, 0, 0.05);
+  --border-radius: 8px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background-color: var(--color-white);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  color: var(--color-charcoal);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Premium Gold Button Utility */
+.btn-gold {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background: var(--gradient-gold);
+  color: var(--color-white);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+}
+
+/* Global Container */
+.container {
+  max-width: 1440px;
+  width: 100%; /* Ensure container takes full width */
+  margin: 0 auto;
+  padding: 0 6rem; /* High breathing room for premium feel */
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+}
+
+.btn-outline {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  border: 2px solid var(--color-gold);
+  color: var(--color-gold);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  background: transparent;
+  cursor: pointer;
+}
+
+.btn-outline:hover {
+  background: var(--color-gold);
+  color: white;
+}
+
+/* GSAP Reveal Helper */
+.gsap-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+}

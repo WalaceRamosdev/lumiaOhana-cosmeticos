@@ -1,0 +1,132 @@
+---
+---
+<header class="main-header">
+	<div class="container">
+		<div class="logo">
+			<a href="/">LUMIÁ <span>OHANA</span></a>
+		</div>
+		<nav class="nav-desktop">
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li><a href="/categorias">Skincare</a></li>
+				<li><a href="/categorias">Maquiagem</a></li>
+				<li><a href="/sobre">Nossa História</a></li>
+			</ul>
+		</nav>
+		<div class="header-actions">
+			<button class="icon-btn" aria-label="Busca">
+				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+			</button>
+			<a href="/checkout" class="icon-btn" aria-label="Carrinho">
+				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+				<span class="cart-count" id="header-cart-count">0</span>
+			</a>
+		</div>
+	</div>
+</header>
+
+<script>
+	import { getCartCount, CART_EVENT } from '../utils/cart.js';
+
+	const countEl = document.getElementById('header-cart-count');
+
+	function updateCount() {
+		if (countEl) countEl.innerText = getCartCount().toString();
+	}
+
+	// Initial count
+	updateCount();
+
+	// Listen for updates
+	window.addEventListener(CART_EVENT, updateCount);
+</script>
+
+<style>
+	.main-header {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		z-index: 1000;
+		background: rgba(255, 255, 255, 0.8);
+		backdrop-filter: blur(10px);
+		border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+		height: 80px;
+		display: flex;
+		align-items: center;
+	}
+
+	.main-header .container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		height: 100%;
+		gap: 3rem; /* Minimum gap between sections */
+	}
+
+
+	.logo a {
+		font-family: var(--font-serif);
+		font-size: 1.5rem;
+		font-weight: 700;
+		letter-spacing: 4px;
+		color: var(--color-charcoal);
+		white-space: nowrap; /* Prevent logo wrapping */
+	}
+
+	.logo span {
+		color: var(--color-gold);
+		font-weight: 400;
+	}
+
+	.nav-desktop ul {
+		display: flex;
+		gap: 3.5rem; /* Increased spacing between nav items */
+	}
+
+	.nav-desktop a {
+		font-size: 0.9rem;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		font-weight: 500;
+	}
+
+	.nav-desktop a:hover {
+		color: var(--color-gold);
+	}
+
+	.header-actions {
+		display: flex;
+		gap: 2.5rem; /* More space between search and cart */
+		align-items: center;
+	}
+
+	.icon-btn {
+		background: none;
+		border: none;
+		cursor: pointer;
+		color: var(--color-charcoal);
+		position: relative;
+	}
+
+	.cart-count {
+		position: absolute;
+		top: -8px;
+		right: -8px;
+		background: var(--color-gold);
+		color: white;
+		font-size: 0.7rem;
+		width: 18px;
+		height: 18px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	@media (max-width: 768px) {
+		.nav-desktop {
+			display: none;
+		}
+	}
+</style>
