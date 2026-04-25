@@ -75,23 +75,23 @@ img {
 /* Premium Gold Button Utility */
 .btn-gold {
   display: inline-block;
-  padding: 1rem 2.5rem;
+  padding: 1.1rem 2.8rem;
   background: var(--gradient-gold);
-  color: var(--color-white);
+  color: var(--color-charcoal); /* High contrast text */
   text-transform: uppercase;
   letter-spacing: 2px;
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: 0.85rem;
+  font-weight: 800;
   border: none;
   border-radius: 50px;
   cursor: pointer;
   box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-gold:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
 }
 
 /* Global Container */
@@ -110,13 +110,13 @@ img {
 
 .btn-outline {
   display: inline-block;
-  padding: 1rem 2.5rem;
-  border: 2px solid var(--color-gold);
-  color: var(--color-gold);
+  padding: 1.1rem 2.8rem;
+  border: 2.5px solid var(--color-gold-dark); /* Darker border */
+  color: var(--color-gold-dark); /* Darker text */
   text-transform: uppercase;
   letter-spacing: 2px;
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: 0.85rem;
+  font-weight: 800;
   border-radius: 50px;
   transition: all 0.3s ease;
   background: transparent;
@@ -124,8 +124,8 @@ img {
 }
 
 .btn-outline:hover {
-  background: var(--color-gold);
-  color: white;
+  background: var(--color-gold-dark);
+  color: var(--color-white);
 }
 
 /* GSAP Reveal Helper */
